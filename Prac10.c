@@ -99,7 +99,7 @@ const struct note ImperialMarch[]={
 int main(void)
 {
 	UART0_Init();
-	UART0_AutoBaudRate();
+	//UART0_AutoBaudRate();
 	
 	Timer0_Ini();
     
