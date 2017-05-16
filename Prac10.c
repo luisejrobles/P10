@@ -1,5 +1,6 @@
 #include "UART.h"
 #include "Timer.h"
+#include <avr/io.h>
 
 const struct note ImperialMarch[]={
 	//for the sheet music see:
@@ -95,18 +96,17 @@ const struct note ImperialMarch[]={
 	//and we're done
 };
 
-
 int main(void)
 {
-	UART0_Init();
-	//UART0_AutoBaudRate();
+	UART0_Init(1);
+	UART0_AutoBaudRate();
 	
 	Timer0_Ini();
     
 	while(1){
-		if (UART0_available()){
+		if (/*UART0_available()*/UART0_getchar()){
 			// Play Song
-			if(UART_getchar() == 'p'){
+			if(UART0_getchar() == 'p'){
 				Timer2_Play(ImperialMarch,sizeof(ImperialMarch)/sizeof(struct note));
 			}
 			//Increase Volume
