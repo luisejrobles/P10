@@ -18,8 +18,9 @@ static char volumenChar[20];
 
 
 //BANDERAS ISR
+static volatile uint16_t delay = 0;
 static volatile uint8_t notaFin = 0;
-static volatile uint8_t silFin = 0;
+static volatile uint8_t silFin = 1;
 static volatile uint8_t silON = 0;
 
 
@@ -44,14 +45,41 @@ ISR(TIMER0_COMPA_vect){
 	/*	Agregar las instrucciones necesarias para reproducir
 		la siguiente nota en el arreglo dependiendo de la duración, 
 		e insertar los silencios entre cada nota. */
-	if((mSeg <= cancion[cntNota].delay) && !silON )
+
+	if( mSeg >= delay)
 	{
-		Timer2_Freq_Gen(TICKS(cancion[cntNota].freq));	
-	}else{
 		mSeg = 0;
-		cntNota++;
+		if(notaFin && cntNota != Fin)
+		{
+			notaFin = 0;
+			Timer2_Freq_Gen(TICKS(cancion[cntNota].freq));
+			delay = cancion[cntNota].delay;
+			cntNota++;
+		}else
+		{
+			notaFin = 1;
+			Timer2_Freq_Gen(0);
+			delay = SILENCE;
+		}
+		
 	}
 	
+	/*
+	if( mCont >= delay ){
+		mCont = 0;
+		if(bandera && i!= tam){						//Si el indice es diferente al tam de la estructura
+			bandera = 0;							//apagar band , actualizar
+			Timer2_Freq_Gen(TICKS(str[i].freq));	//frec igual a notas x ticks.
+			delay = str[i].delay;					//El delay es la nota x 10ms
+			i++;
+		}
+		else {										//Si el indice es igual al tam
+			bandera = 1;
+			Timer2_Freq_Gen(0);
+			delay = SILENCE;
+		}*/
+	
+		
 }
 
 void Timer2_Freq_Gen(uint8_t ticks){
