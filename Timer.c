@@ -13,14 +13,15 @@ const struct note *cancion;
 static volatile uint8_t secFlag;
 static volatile uint8_t cntNota;
 static volatile uint8_t Fin;
-static volatile uint8_t volumen;
+static volatile uint16_t volumen;
 static char volumenChar[20];
-static char freq[10];
 
 
 //BANDERAS ISR
 static volatile uint8_t notaFin = 0;
 static volatile uint8_t silFin = 0;
+static volatile uint8_t silON = 0;
+
 
 
 void Timer0_Ini ( void ){
@@ -43,28 +44,14 @@ ISR(TIMER0_COMPA_vect){
 	/*	Agregar las instrucciones necesarias para reproducir
 		la siguiente nota en el arreglo dependiendo de la duración, 
 		e insertar los silencios entre cada nota. */
-	if(mSeg <= cancion->delay)
+	if((mSeg <= cancion[cntNota].delay) && !silON )
 	{
 		Timer2_Freq_Gen(TICKS(cancion[cntNota].freq));	
-	}else
-	{
-		notaFin = 1;
+	}else{
 		mSeg = 0;
-	}
-	if(notaFin && (mSeg <= SILENCE) )
-	{
-		Timer2_Freq_Gen(TICKS(0));		//mandando silencio
-	}else
-	{
-		silFin = 1;
+		cntNota++;
 	}
 	
-	if(notaFin && silFin)
-	{
-		notaFin = 0;
-		silFin = 0;
-		cntNota ++;
-	}
 }
 
 void Timer2_Freq_Gen(uint8_t ticks){
@@ -73,16 +60,16 @@ void Timer2_Freq_Gen(uint8_t ticks){
 		De lo contrario se requiere deshabilitar el Generador, generando de 
 		esta forma el silencio (0 lógico).
 		*/
-		
 	if(ticks > 0)
 	{
-		TCCR2A = (3<<WGM20);						 //PWM OCR2A TOP
-		TCCR2B = (6<<CS20)|(2<<COM2B0)|(1<<WGM22);	 //256PS, COM2B0 non inverting
-		OCR2A  = ticks -1 ;							 //Tope en OCR2A
+		//DDRH = (1<<DDH6);
+		TCCR2A = (3<<WGM20)|(2<<COM2B0);			//PWM OCR2A TOP
+		TCCR2B = (6<<CS20)|(1<<WGM22);				//256PS, COM2B0 non inverting
+		OCR2A  = ticks -1 ;							//Tope en OCR2A
 	}else
 	{
 		//TCCR2B &= ~(6<<CS20);			//Deshabilitando PS para 0 logico
-		TCCR2B = 0;
+		TCCR2B = 0;						//Deshabilitando el generador
 	}	
 }
 
@@ -94,6 +81,7 @@ void Timer2_Play(const struct note song[],unsigned int len)
 	cntNota = 0;				//obteniendo principio de musica
 	Fin = len;			//Obteniendo final de musica
 	volumen = 50;			//Volumen a la mitad
+	DDRH |= (1<<DDH6);
 }
 
 void Timer2_Volume(int8_t direction){
@@ -113,4 +101,7 @@ void Timer2_Volume(int8_t direction){
 		}
 	}
 	OCR2B = (OCR2A*volumen)/100;
+	itoa(volumenChar,volumen,10);
+	UART0_puts("\n\rVolumen: ");
+	UART0_puts(volumenChar);
 }
