@@ -7,7 +7,7 @@
 
 /*	Definir el macro que calcula los ticks en base
 	a al parametro de frecuencia (f). */
-#define TICKS(f) 16000000/(1024/f)
+#define TICKS(f) (16000000/256)/f
 
 const struct note *cancion;
 static volatile uint8_t secFlag;
@@ -18,6 +18,7 @@ static char volumenChar[20];
 
 
 //BANDERAS ISR
+static volatile uint8_t cambio = 1;
 static volatile uint16_t delay = 0;
 static volatile uint8_t notaFin = 0;
 static volatile uint8_t silFin = 1;
@@ -45,41 +46,22 @@ ISR(TIMER0_COMPA_vect){
 	/*	Agregar las instrucciones necesarias para reproducir
 		la siguiente nota en el arreglo dependiendo de la duración, 
 		e insertar los silencios entre cada nota. */
-
-	if( mSeg >= delay)
+	if(mSeg >= delay)
 	{
 		mSeg = 0;
-		if(notaFin && cntNota != Fin)
+		if(cambio && cntNota != Fin)
 		{
-			notaFin = 0;
 			Timer2_Freq_Gen(TICKS(cancion[cntNota].freq));
+			cambio = 0;
 			delay = cancion[cntNota].delay;
 			cntNota++;
 		}else
 		{
-			notaFin = 1;
+			cambio = 1;
 			Timer2_Freq_Gen(0);
 			delay = SILENCE;
 		}
-		
-	}
-	
-	/*
-	if( mCont >= delay ){
-		mCont = 0;
-		if(bandera && i!= tam){						//Si el indice es diferente al tam de la estructura
-			bandera = 0;							//apagar band , actualizar
-			Timer2_Freq_Gen(TICKS(str[i].freq));	//frec igual a notas x ticks.
-			delay = str[i].delay;					//El delay es la nota x 10ms
-			i++;
-		}
-		else {										//Si el indice es igual al tam
-			bandera = 1;
-			Timer2_Freq_Gen(0);
-			delay = SILENCE;
-		}*/
-	
-		
+	}		
 }
 
 void Timer2_Freq_Gen(uint8_t ticks){
