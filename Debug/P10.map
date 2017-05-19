@@ -29,6 +29,8 @@ Discarded input sections
  .text          0x00000000        0x0 Prac10.o
  .data          0x00000000        0x0 Prac10.o
  .bss           0x00000000        0x0 Prac10.o
+ .rodata.ImperialMarch
+                0x00000000      0x118 Prac10.o
  .text          0x00000000        0x0 Timer.o
  .data          0x00000000        0x0 Timer.o
  .bss           0x00000000        0x0 Timer.o
@@ -480,7 +482,7 @@ END GROUP
  *(.fini0)
                 0x00000540                _etext = .
 
-.data           0x00800200      0x162 load address 0x00000540
+.data           0x00800200      0x1b2 load address 0x00000540
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -489,40 +491,40 @@ END GROUP
  *(.rodata*)
  .rodata.str1.1
                 0x00800201       0x3d Prac10.o
- .rodata.ImperialMarch
-                0x0080023e      0x118 Prac10.o
-                0x0080023e                ImperialMarch
+ .rodata.AngelesAzules
+                0x0080023e      0x168 Prac10.o
+                0x0080023e                AngelesAzules
  .rodata.str1.1
-                0x00800356        0xc Timer.o
+                0x008003a6        0xc Timer.o
  *(.gnu.linkonce.d*)
-                0x00800362                . = ALIGN (0x2)
-                0x00800362                _edata = .
-                0x00800362                PROVIDE (__data_end, .)
+                0x008003b2                . = ALIGN (0x2)
+                0x008003b2                _edata = .
+                0x008003b2                PROVIDE (__data_end, .)
 
-.bss            0x00800362       0x1e
-                0x00800362                PROVIDE (__bss_start, .)
+.bss            0x008003b2       0x1e
+                0x008003b2                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.mSeg.1650
-                0x00800362        0x2 Timer.o
- .bss.delay     0x00800364        0x2 Timer.o
+                0x008003b2        0x2 Timer.o
+ .bss.delay     0x008003b4        0x2 Timer.o
  .bss.volumenChar
-                0x00800366       0x14 Timer.o
- .bss.volumen   0x0080037a        0x2 Timer.o
- .bss.Fin       0x0080037c        0x1 Timer.o
- .bss.cntNota   0x0080037d        0x1 Timer.o
+                0x008003b6       0x14 Timer.o
+ .bss.volumen   0x008003ca        0x2 Timer.o
+ .bss.Fin       0x008003cc        0x1 Timer.o
+ .bss.cntNota   0x008003cd        0x1 Timer.o
  *(COMMON)
- COMMON         0x0080037e        0x2 Timer.o
-                0x0080037e                cancion
-                0x00800380                PROVIDE (__bss_end, .)
+ COMMON         0x008003ce        0x2 Timer.o
+                0x008003ce                cancion
+                0x008003d0                PROVIDE (__bss_end, .)
                 0x00000540                __data_load_start = LOADADDR (.data)
-                0x000006a2                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000006f2                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800380        0x0
+.noinit         0x008003d0        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800380                _end = .
+                0x008003d0                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -601,12 +603,12 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x13d2
+.debug_info     0x00000000     0x13f9
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc D:/Program Files (x86)/7.0/Packs/atmel/ATmega_DFP/1.2.132/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_info    0x00000bbc      0x24d Prac10.o
- .debug_info    0x00000e09      0x2f4 Timer.o
- .debug_info    0x000010fd      0x2d5 UART.o
+ .debug_info    0x00000bbc      0x274 Prac10.o
+ .debug_info    0x00000e30      0x2f4 Timer.o
+ .debug_info    0x00001124      0x2d5 UART.o
 
 .debug_abbrev   0x00000000      0xe93
  *(.debug_abbrev)
@@ -628,14 +630,14 @@ END GROUP
  .debug_frame   0x00000024       0xac Timer.o
  .debug_frame   0x000000d0       0xd0 UART.o
 
-.debug_str      0x00000000      0x66e
+.debug_str      0x00000000      0x67c
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 D:/Program Files (x86)/7.0/Packs/atmel/ATmega_DFP/1.2.132/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_str     0x000003e6      0x199 Prac10.o
-                                0x1cd (size before relaxing)
- .debug_str     0x0000057f       0x98 Timer.o
+ .debug_str     0x000003e6      0x1a7 Prac10.o
+                                0x1db (size before relaxing)
+ .debug_str     0x0000058d       0x98 Timer.o
                                 0x224 (size before relaxing)
- .debug_str     0x00000617       0x57 UART.o
+ .debug_str     0x00000625       0x57 UART.o
                                 0x1d7 (size before relaxing)
 
 .debug_loc      0x00000000      0x6d1

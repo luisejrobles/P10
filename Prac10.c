@@ -6,6 +6,7 @@ const struct note ImperialMarch[]={
 	//http://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0016254
 	//this is just a translation of said sheet music to frequencies / time in ms
 	//used TEMPO ms for a quart note
+	
 	{a, TEMPO},
 	{a, TEMPO},
 	{a, TEMPO},
@@ -95,6 +96,128 @@ const struct note ImperialMarch[]={
 	//and we're done
 };
 
+const struct note AngelesAzules[]={
+	{bL, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{b, TEMPO_500*5/4},
+
+	{a, TEMPO_500*3/8},
+	{gS, TEMPO_500*3/4},
+	{fS, TEMPO_500*3/8},
+	{d, TEMPO_500*3/4},
+	{bL, TEMPO_500*3/2},
+	//first bit
+
+	{bL, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{b, TEMPO_500*5/4},
+
+	{a, TEMPO_500*3/8},
+	{gS, TEMPO_500*3/4},
+	{fS, TEMPO_500*3/8},
+	{d, TEMPO_500*3/4},
+	{bL, TEMPO_500*3/2},
+	//first bit
+
+	{d, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{cS, TEMPO_500*3/8},
+	{d, TEMPO_500*5/8},
+	{aL, TEMPO_500*5/4},
+	
+	{d, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{cS, TEMPO_500*3/8},
+	{d, TEMPO_500*5/8},
+	{aL, TEMPO_500*5/8},
+
+//****************
+
+	{fS, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{e, TEMPO_500*3/8},
+	{fS, TEMPO_500*5/8},
+	{cS, TEMPO_500*5/4},
+
+	{fS, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{e, TEMPO_500*3/8},
+	{fS, TEMPO_500*5/8},
+	{cS, TEMPO_500*5/8},
+
+//*****************
+
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{e, TEMPO_500*1/2},
+	{d, TEMPO_500*1/2},
+	{cS, TEMPO_500*3},
+
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{e, TEMPO_500*1/2},
+	{d, TEMPO_500*1/2},
+	{cS, TEMPO_500*3},
+
+//Se repite todo*****
+
+	{d, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{cS, TEMPO_500*3/8},
+	{d, TEMPO_500*5/8},
+	{aL, TEMPO_500*5/4},
+	
+	{d, TEMPO_500*3/8},
+	{d, TEMPO_500*3/8},
+	{cS, TEMPO_500*3/8},
+	{d, TEMPO_500*5/8},
+	{aL, TEMPO_500*5/8},
+
+//****************
+
+	{fS, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{e, TEMPO_500*3/8},
+	{fS, TEMPO_500*5/8},
+	{cS, TEMPO_500*5/4},
+
+	{fS, TEMPO_500*3/8},
+	{fS, TEMPO_500*3/8},
+	{e, TEMPO_500*3/8},
+	{fS, TEMPO_500*5/8},
+	{cS, TEMPO_500*5/8},
+
+//*****************
+
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{e, TEMPO_500*1/2},
+	{d, TEMPO_500*1/2},
+	{cS, TEMPO_500*3},
+
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{g, TEMPO_500*1/2},
+	{e, TEMPO_500*1/2},
+	{d, TEMPO_500*1/2},
+	{cS, TEMPO_500*3}
+	//and we're done
+};
+
+
 
 int main(void)
 {
@@ -115,7 +238,7 @@ int main(void)
 			break;
 			case 'p' : 
 						UART0_puts("\n\rTocar cancion");
-						Timer2_Play(ImperialMarch,sizeof(ImperialMarch)/sizeof(struct note));
+						Timer2_Play(AngelesAzules,sizeof(AngelesAzules)/sizeof(struct note));
 			break;
 			default : break;
 		}
