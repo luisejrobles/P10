@@ -1,4 +1,4 @@
-﻿#include <avr/interrupt.h>
+#include <avr/interrupt.h>
 #include <avr/io.h>
 #include <inttypes.h>
 
@@ -76,6 +76,7 @@ void Timer2_Freq_Gen(uint8_t ticks){
 		TCCR2A = (3<<WGM20)|(2<<COM2B0);			//PWM OCR2A TOP
 		TCCR2B = (6<<CS20)|(1<<WGM22);				//256PS, COM2B0 non inverting
 		OCR2A  = ticks -1 ;							//Tope en OCR2A
+		OCR2B = (OCR2A*volumen)/100;
 	}else
 	{
 		//TCCR2B &= ~(6<<CS20);			//Deshabilitando PS para 0 logico
@@ -110,7 +111,7 @@ void Timer2_Volume(int8_t direction){
 			volumen -= 10;
 		}
 	}
-	OCR2B = (OCR2A*volumen)/100;
+	
 	itoa(volumenChar,volumen,10);
 	UART0_puts("\n\rVolumen: ");
 	UART0_puts(volumenChar);

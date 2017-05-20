@@ -25,9 +25,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  10 .debug_str    0000067c  00000000  00000000  000034b4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000006d1  00000000  00000000  00003b30  2**0
+ 11 .debug_loc    000006f0  00000000  00000000  00003b30  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000088  00000000  00000000  00004201  2**0
+ 12 .debug_ranges 00000088  00000000  00000000  00004220  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -75,7 +75,7 @@ Disassembly of section .text:
   4e:	00 00       	nop
   50:	68 c0       	rjmp	.+208    	; 0x122 <__bad_interrupt>
   52:	00 00       	nop
-  54:	a9 c0       	rjmp	.+338    	; 0x1a8 <__vector_21>
+  54:	bf c0       	rjmp	.+382    	; 0x1d4 <__vector_21>
   56:	00 00       	nop
   58:	64 c0       	rjmp	.+200    	; 0x122 <__bad_interrupt>
   5a:	00 00       	nop
@@ -235,7 +235,7 @@ int main(void)
  14e:	2f d1       	rcall	.+606    	; 0x3ae <UART0_puts>
  150:	8f ef       	ldi	r24, 0xFF	; 255
 						Timer2_Volume(1);
- 152:	bd d0       	rcall	.+378    	; 0x2ce <Timer2_Volume>
+ 152:	d3 d0       	rcall	.+422    	; 0x2fa <Timer2_Volume>
  154:	f2 cf       	rjmp	.-28     	; 0x13a <main+0x16>
 			break;
  156:	82 e2       	ldi	r24, 0x22	; 34
@@ -244,7 +244,7 @@ int main(void)
  158:	92 e0       	ldi	r25, 0x02	; 2
  15a:	29 d1       	rcall	.+594    	; 0x3ae <UART0_puts>
  15c:	81 e0       	ldi	r24, 0x01	; 1
- 15e:	b7 d0       	rcall	.+366    	; 0x2ce <Timer2_Volume>
+ 15e:	cd d0       	rcall	.+410    	; 0x2fa <Timer2_Volume>
 						Timer2_Play(AngelesAzules,sizeof(AngelesAzules)/sizeof(struct note));
  160:	ec cf       	rjmp	.-40     	; 0x13a <main+0x16>
  162:	8e e2       	ldi	r24, 0x2E	; 46
@@ -255,7 +255,7 @@ int main(void)
 			break;
  16c:	8e e3       	ldi	r24, 0x3E	; 62
  16e:	92 e0       	ldi	r25, 0x02	; 2
- 170:	9a d0       	rcall	.+308    	; 0x2a6 <Timer2_Play>
+ 170:	b0 d0       	rcall	.+352    	; 0x2d2 <Timer2_Play>
  172:	e3 cf       	rjmp	.-58     	; 0x13a <main+0x16>
 
 00000174 <Timer0_Ini>:
@@ -289,7 +289,7 @@ void Timer0_Ini ( void ){
 		*/
 	if(ticks > 0)
  18a:	88 23       	and	r24, r24
- 18c:	51 f0       	breq	.+20     	; 0x1a2 <Timer2_Freq_Gen+0x18>
+ 18c:	01 f1       	breq	.+64     	; 0x1ce <Timer2_Freq_Gen+0x44>
 	{
 		//DDRH = (1<<DDH6);
 		TCCR2A = (3<<WGM20)|(2<<COM2B0);			//PWM OCR2A TOP
@@ -300,246 +300,249 @@ void Timer0_Ini ( void ){
  196:	90 93 b1 00 	sts	0x00B1, r25	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7000b1>
 		OCR2A  = ticks -1 ;							//Tope en OCR2A
  19a:	81 50       	subi	r24, 0x01	; 1
- 19c:	80 93 b3 00 	sts	0x00B3, r24	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7000b3>
- 1a0:	08 95       	ret
+ 19c:	e3 eb       	ldi	r30, 0xB3	; 179
+ 19e:	f0 e0       	ldi	r31, 0x00	; 0
+ 1a0:	80 83       	st	Z, r24
+		OCR2B = (OCR2A*volumen)/100;
+ 1a2:	40 81       	ld	r20, Z
+ 1a4:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
+ 1a8:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
+ 1ac:	48 9f       	mul	r20, r24
+ 1ae:	90 01       	movw	r18, r0
+ 1b0:	49 9f       	mul	r20, r25
+ 1b2:	30 0d       	add	r19, r0
+ 1b4:	11 24       	eor	r1, r1
+ 1b6:	36 95       	lsr	r19
+ 1b8:	27 95       	ror	r18
+ 1ba:	36 95       	lsr	r19
+ 1bc:	27 95       	ror	r18
+ 1be:	ab e7       	ldi	r26, 0x7B	; 123
+ 1c0:	b4 e1       	ldi	r27, 0x14	; 20
+ 1c2:	8b d1       	rcall	.+790    	; 0x4da <__umulhisi3>
+ 1c4:	96 95       	lsr	r25
+ 1c6:	87 95       	ror	r24
+ 1c8:	80 93 b4 00 	sts	0x00B4, r24	; 0x8000b4 <__TEXT_REGION_LENGTH__+0x7000b4>
+ 1cc:	08 95       	ret
 	}else
 	{
 		//TCCR2B &= ~(6<<CS20);			//Deshabilitando PS para 0 logico
 		TCCR2B = 0;						//Deshabilitando el generador
- 1a2:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7000b1>
- 1a6:	08 95       	ret
+ 1ce:	10 92 b1 00 	sts	0x00B1, r1	; 0x8000b1 <__TEXT_REGION_LENGTH__+0x7000b1>
+ 1d2:	08 95       	ret
 
-000001a8 <__vector_21>:
+000001d4 <__vector_21>:
 	OCR0A  = 250-1;			//1ms tope
 	TIMSK0 = (1<<OCIE0A);	//Habilitando interrupcion
 	sei();					//Habilitando interrupciones gobales
 }
 
 ISR(TIMER0_COMPA_vect){ 
- 1a8:	1f 92       	push	r1
- 1aa:	0f 92       	push	r0
- 1ac:	0f b6       	in	r0, 0x3f	; 63
- 1ae:	0f 92       	push	r0
- 1b0:	11 24       	eor	r1, r1
- 1b2:	0b b6       	in	r0, 0x3b	; 59
- 1b4:	0f 92       	push	r0
- 1b6:	2f 93       	push	r18
- 1b8:	3f 93       	push	r19
- 1ba:	4f 93       	push	r20
- 1bc:	5f 93       	push	r21
- 1be:	6f 93       	push	r22
- 1c0:	7f 93       	push	r23
- 1c2:	8f 93       	push	r24
- 1c4:	9f 93       	push	r25
- 1c6:	af 93       	push	r26
- 1c8:	bf 93       	push	r27
- 1ca:	ef 93       	push	r30
- 1cc:	ff 93       	push	r31
+ 1d4:	1f 92       	push	r1
+ 1d6:	0f 92       	push	r0
+ 1d8:	0f b6       	in	r0, 0x3f	; 63
+ 1da:	0f 92       	push	r0
+ 1dc:	11 24       	eor	r1, r1
+ 1de:	0b b6       	in	r0, 0x3b	; 59
+ 1e0:	0f 92       	push	r0
+ 1e2:	2f 93       	push	r18
+ 1e4:	3f 93       	push	r19
+ 1e6:	4f 93       	push	r20
+ 1e8:	5f 93       	push	r21
+ 1ea:	6f 93       	push	r22
+ 1ec:	7f 93       	push	r23
+ 1ee:	8f 93       	push	r24
+ 1f0:	9f 93       	push	r25
+ 1f2:	af 93       	push	r26
+ 1f4:	bf 93       	push	r27
+ 1f6:	ef 93       	push	r30
+ 1f8:	ff 93       	push	r31
 	/* 	Código para actualizar bandera de segundos */
 	static uint16_t mSeg;
 	mSeg++;
- 1ce:	80 91 b2 03 	lds	r24, 0x03B2	; 0x8003b2 <__data_end>
- 1d2:	90 91 b3 03 	lds	r25, 0x03B3	; 0x8003b3 <__data_end+0x1>
- 1d6:	01 96       	adiw	r24, 0x01	; 1
- 1d8:	90 93 b3 03 	sts	0x03B3, r25	; 0x8003b3 <__data_end+0x1>
- 1dc:	80 93 b2 03 	sts	0x03B2, r24	; 0x8003b2 <__data_end>
+ 1fa:	80 91 b2 03 	lds	r24, 0x03B2	; 0x8003b2 <__data_end>
+ 1fe:	90 91 b3 03 	lds	r25, 0x03B3	; 0x8003b3 <__data_end+0x1>
+ 202:	01 96       	adiw	r24, 0x01	; 1
+ 204:	90 93 b3 03 	sts	0x03B3, r25	; 0x8003b3 <__data_end+0x1>
+ 208:	80 93 b2 03 	sts	0x03B2, r24	; 0x8003b2 <__data_end>
 	
 	/*	Agregar las instrucciones necesarias para reproducir
 		la siguiente nota en el arreglo dependiendo de la duración, 
 		e insertar los silencios entre cada nota. */
 	if(mSeg >= delay)
- 1e0:	20 91 b4 03 	lds	r18, 0x03B4	; 0x8003b4 <delay>
- 1e4:	30 91 b5 03 	lds	r19, 0x03B5	; 0x8003b5 <delay+0x1>
- 1e8:	82 17       	cp	r24, r18
- 1ea:	93 07       	cpc	r25, r19
- 1ec:	08 f4       	brcc	.+2      	; 0x1f0 <__vector_21+0x48>
- 1ee:	48 c0       	rjmp	.+144    	; 0x280 <__vector_21+0xd8>
+ 20c:	20 91 b4 03 	lds	r18, 0x03B4	; 0x8003b4 <delay>
+ 210:	30 91 b5 03 	lds	r19, 0x03B5	; 0x8003b5 <delay+0x1>
+ 214:	82 17       	cp	r24, r18
+ 216:	93 07       	cpc	r25, r19
+ 218:	08 f4       	brcc	.+2      	; 0x21c <__vector_21+0x48>
+ 21a:	48 c0       	rjmp	.+144    	; 0x2ac <__vector_21+0xd8>
 	{
 		mSeg = 0;
- 1f0:	10 92 b3 03 	sts	0x03B3, r1	; 0x8003b3 <__data_end+0x1>
- 1f4:	10 92 b2 03 	sts	0x03B2, r1	; 0x8003b2 <__data_end>
+ 21c:	10 92 b3 03 	sts	0x03B3, r1	; 0x8003b3 <__data_end+0x1>
+ 220:	10 92 b2 03 	sts	0x03B2, r1	; 0x8003b2 <__data_end>
 		if(cambio && cntNota != Fin)
- 1f8:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__data_start>
- 1fc:	88 23       	and	r24, r24
- 1fe:	a9 f1       	breq	.+106    	; 0x26a <__vector_21+0xc2>
- 200:	90 91 cd 03 	lds	r25, 0x03CD	; 0x8003cd <cntNota>
- 204:	80 91 cc 03 	lds	r24, 0x03CC	; 0x8003cc <Fin>
- 208:	98 17       	cp	r25, r24
- 20a:	79 f1       	breq	.+94     	; 0x26a <__vector_21+0xc2>
+ 224:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__data_start>
+ 228:	88 23       	and	r24, r24
+ 22a:	a9 f1       	breq	.+106    	; 0x296 <__vector_21+0xc2>
+ 22c:	90 91 cd 03 	lds	r25, 0x03CD	; 0x8003cd <cntNota>
+ 230:	80 91 cc 03 	lds	r24, 0x03CC	; 0x8003cc <Fin>
+ 234:	98 17       	cp	r25, r24
+ 236:	79 f1       	breq	.+94     	; 0x296 <__vector_21+0xc2>
 		{
 			Timer2_Freq_Gen(TICKS(cancion[cntNota].freq));
- 20c:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
- 210:	e0 91 ce 03 	lds	r30, 0x03CE	; 0x8003ce <cancion>
- 214:	f0 91 cf 03 	lds	r31, 0x03CF	; 0x8003cf <cancion+0x1>
- 218:	94 e0       	ldi	r25, 0x04	; 4
- 21a:	89 9f       	mul	r24, r25
- 21c:	e0 0d       	add	r30, r0
- 21e:	f1 1d       	adc	r31, r1
- 220:	11 24       	eor	r1, r1
- 222:	20 81       	ld	r18, Z
- 224:	31 81       	ldd	r19, Z+1	; 0x01
- 226:	40 e0       	ldi	r20, 0x00	; 0
- 228:	50 e0       	ldi	r21, 0x00	; 0
- 22a:	64 e2       	ldi	r22, 0x24	; 36
- 22c:	74 ef       	ldi	r23, 0xF4	; 244
- 22e:	80 e0       	ldi	r24, 0x00	; 0
- 230:	90 e0       	ldi	r25, 0x00	; 0
- 232:	37 d1       	rcall	.+622    	; 0x4a2 <__divmodsi4>
- 234:	82 2f       	mov	r24, r18
- 236:	a9 df       	rcall	.-174    	; 0x18a <Timer2_Freq_Gen>
+ 238:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
+ 23c:	e0 91 ce 03 	lds	r30, 0x03CE	; 0x8003ce <cancion>
+ 240:	f0 91 cf 03 	lds	r31, 0x03CF	; 0x8003cf <cancion+0x1>
+ 244:	94 e0       	ldi	r25, 0x04	; 4
+ 246:	89 9f       	mul	r24, r25
+ 248:	e0 0d       	add	r30, r0
+ 24a:	f1 1d       	adc	r31, r1
+ 24c:	11 24       	eor	r1, r1
+ 24e:	20 81       	ld	r18, Z
+ 250:	31 81       	ldd	r19, Z+1	; 0x01
+ 252:	40 e0       	ldi	r20, 0x00	; 0
+ 254:	50 e0       	ldi	r21, 0x00	; 0
+ 256:	64 e2       	ldi	r22, 0x24	; 36
+ 258:	74 ef       	ldi	r23, 0xF4	; 244
+ 25a:	80 e0       	ldi	r24, 0x00	; 0
+ 25c:	90 e0       	ldi	r25, 0x00	; 0
+ 25e:	21 d1       	rcall	.+578    	; 0x4a2 <__divmodsi4>
+ 260:	82 2f       	mov	r24, r18
+ 262:	93 df       	rcall	.-218    	; 0x18a <Timer2_Freq_Gen>
 			cambio = 0;
- 238:	10 92 00 02 	sts	0x0200, r1	; 0x800200 <__data_start>
+ 264:	10 92 00 02 	sts	0x0200, r1	; 0x800200 <__data_start>
 			delay = cancion[cntNota].delay;
- 23c:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
- 240:	e0 91 ce 03 	lds	r30, 0x03CE	; 0x8003ce <cancion>
- 244:	f0 91 cf 03 	lds	r31, 0x03CF	; 0x8003cf <cancion+0x1>
- 248:	94 e0       	ldi	r25, 0x04	; 4
- 24a:	89 9f       	mul	r24, r25
- 24c:	e0 0d       	add	r30, r0
- 24e:	f1 1d       	adc	r31, r1
- 250:	11 24       	eor	r1, r1
- 252:	82 81       	ldd	r24, Z+2	; 0x02
- 254:	93 81       	ldd	r25, Z+3	; 0x03
- 256:	90 93 b5 03 	sts	0x03B5, r25	; 0x8003b5 <delay+0x1>
- 25a:	80 93 b4 03 	sts	0x03B4, r24	; 0x8003b4 <delay>
+ 268:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
+ 26c:	e0 91 ce 03 	lds	r30, 0x03CE	; 0x8003ce <cancion>
+ 270:	f0 91 cf 03 	lds	r31, 0x03CF	; 0x8003cf <cancion+0x1>
+ 274:	94 e0       	ldi	r25, 0x04	; 4
+ 276:	89 9f       	mul	r24, r25
+ 278:	e0 0d       	add	r30, r0
+ 27a:	f1 1d       	adc	r31, r1
+ 27c:	11 24       	eor	r1, r1
+ 27e:	82 81       	ldd	r24, Z+2	; 0x02
+ 280:	93 81       	ldd	r25, Z+3	; 0x03
+ 282:	90 93 b5 03 	sts	0x03B5, r25	; 0x8003b5 <delay+0x1>
+ 286:	80 93 b4 03 	sts	0x03B4, r24	; 0x8003b4 <delay>
 			cntNota++;
- 25e:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
- 262:	8f 5f       	subi	r24, 0xFF	; 255
- 264:	80 93 cd 03 	sts	0x03CD, r24	; 0x8003cd <cntNota>
- 268:	0b c0       	rjmp	.+22     	; 0x280 <__vector_21+0xd8>
+ 28a:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
+ 28e:	8f 5f       	subi	r24, 0xFF	; 255
+ 290:	80 93 cd 03 	sts	0x03CD, r24	; 0x8003cd <cntNota>
+ 294:	0b c0       	rjmp	.+22     	; 0x2ac <__vector_21+0xd8>
 		}else
 		{
 			cambio = 1;
- 26a:	81 e0       	ldi	r24, 0x01	; 1
- 26c:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <__data_start>
+ 296:	81 e0       	ldi	r24, 0x01	; 1
+ 298:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <__data_start>
 			Timer2_Freq_Gen(0);
- 270:	80 e0       	ldi	r24, 0x00	; 0
- 272:	8b df       	rcall	.-234    	; 0x18a <Timer2_Freq_Gen>
+ 29c:	80 e0       	ldi	r24, 0x00	; 0
+ 29e:	75 df       	rcall	.-278    	; 0x18a <Timer2_Freq_Gen>
 			delay = SILENCE;
- 274:	8a e0       	ldi	r24, 0x0A	; 10
- 276:	90 e0       	ldi	r25, 0x00	; 0
- 278:	90 93 b5 03 	sts	0x03B5, r25	; 0x8003b5 <delay+0x1>
- 27c:	80 93 b4 03 	sts	0x03B4, r24	; 0x8003b4 <delay>
+ 2a0:	8a e0       	ldi	r24, 0x0A	; 10
+ 2a2:	90 e0       	ldi	r25, 0x00	; 0
+ 2a4:	90 93 b5 03 	sts	0x03B5, r25	; 0x8003b5 <delay+0x1>
+ 2a8:	80 93 b4 03 	sts	0x03B4, r24	; 0x8003b4 <delay>
 		}
 	}		
 }
- 280:	ff 91       	pop	r31
- 282:	ef 91       	pop	r30
- 284:	bf 91       	pop	r27
- 286:	af 91       	pop	r26
- 288:	9f 91       	pop	r25
- 28a:	8f 91       	pop	r24
- 28c:	7f 91       	pop	r23
- 28e:	6f 91       	pop	r22
- 290:	5f 91       	pop	r21
- 292:	4f 91       	pop	r20
- 294:	3f 91       	pop	r19
- 296:	2f 91       	pop	r18
- 298:	0f 90       	pop	r0
- 29a:	0b be       	out	0x3b, r0	; 59
- 29c:	0f 90       	pop	r0
- 29e:	0f be       	out	0x3f, r0	; 63
- 2a0:	0f 90       	pop	r0
- 2a2:	1f 90       	pop	r1
- 2a4:	18 95       	reti
+ 2ac:	ff 91       	pop	r31
+ 2ae:	ef 91       	pop	r30
+ 2b0:	bf 91       	pop	r27
+ 2b2:	af 91       	pop	r26
+ 2b4:	9f 91       	pop	r25
+ 2b6:	8f 91       	pop	r24
+ 2b8:	7f 91       	pop	r23
+ 2ba:	6f 91       	pop	r22
+ 2bc:	5f 91       	pop	r21
+ 2be:	4f 91       	pop	r20
+ 2c0:	3f 91       	pop	r19
+ 2c2:	2f 91       	pop	r18
+ 2c4:	0f 90       	pop	r0
+ 2c6:	0b be       	out	0x3b, r0	; 59
+ 2c8:	0f 90       	pop	r0
+ 2ca:	0f be       	out	0x3f, r0	; 63
+ 2cc:	0f 90       	pop	r0
+ 2ce:	1f 90       	pop	r1
+ 2d0:	18 95       	reti
 
-000002a6 <Timer2_Play>:
+000002d2 <Timer2_Play>:
 
 void Timer2_Play(const struct note song[],unsigned int len)
 {	
 	/*	Función que establece las condiciones necesarias para que
 		el generador recorra el arreglo de notas. */
 	cancion = song;
- 2a6:	90 93 cf 03 	sts	0x03CF, r25	; 0x8003cf <cancion+0x1>
- 2aa:	80 93 ce 03 	sts	0x03CE, r24	; 0x8003ce <cancion>
+ 2d2:	90 93 cf 03 	sts	0x03CF, r25	; 0x8003cf <cancion+0x1>
+ 2d6:	80 93 ce 03 	sts	0x03CE, r24	; 0x8003ce <cancion>
 	cntNota = 0;				//obteniendo principio de musica
- 2ae:	10 92 cd 03 	sts	0x03CD, r1	; 0x8003cd <cntNota>
+ 2da:	10 92 cd 03 	sts	0x03CD, r1	; 0x8003cd <cntNota>
 	Fin = len;			//Obteniendo final de musica
- 2b2:	60 93 cc 03 	sts	0x03CC, r22	; 0x8003cc <Fin>
+ 2de:	60 93 cc 03 	sts	0x03CC, r22	; 0x8003cc <Fin>
 	volumen = 50;			//Volumen a la mitad
- 2b6:	82 e3       	ldi	r24, 0x32	; 50
- 2b8:	90 e0       	ldi	r25, 0x00	; 0
- 2ba:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
- 2be:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
+ 2e2:	82 e3       	ldi	r24, 0x32	; 50
+ 2e4:	90 e0       	ldi	r25, 0x00	; 0
+ 2e6:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
+ 2ea:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
 	DDRH |= (1<<DDH6);
- 2c2:	e1 e0       	ldi	r30, 0x01	; 1
- 2c4:	f1 e0       	ldi	r31, 0x01	; 1
- 2c6:	80 81       	ld	r24, Z
- 2c8:	80 64       	ori	r24, 0x40	; 64
- 2ca:	80 83       	st	Z, r24
- 2cc:	08 95       	ret
+ 2ee:	e1 e0       	ldi	r30, 0x01	; 1
+ 2f0:	f1 e0       	ldi	r31, 0x01	; 1
+ 2f2:	80 81       	ld	r24, Z
+ 2f4:	80 64       	ori	r24, 0x40	; 64
+ 2f6:	80 83       	st	Z, r24
+ 2f8:	08 95       	ret
 
-000002ce <Timer2_Volume>:
+000002fa <Timer2_Volume>:
 }
 
 void Timer2_Volume(int8_t direction){
 	/* 	Ajusta el ciclo de trabajo para incrementar o decrementar  el volumen
 	   	de las notas que se estan generando. */
 	if(direction == 1)
- 2ce:	81 30       	cpi	r24, 0x01	; 1
- 2d0:	89 f4       	brne	.+34     	; 0x2f4 <Timer2_Volume+0x26>
+ 2fa:	81 30       	cpi	r24, 0x01	; 1
+ 2fc:	89 f4       	brne	.+34     	; 0x320 <Timer2_Volume+0x26>
 	{
 		if(volumen <= 80)
- 2d2:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 2d6:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 2da:	81 35       	cpi	r24, 0x51	; 81
- 2dc:	91 05       	cpc	r25, r1
- 2de:	c8 f4       	brcc	.+50     	; 0x312 <Timer2_Volume+0x44>
+ 2fe:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
+ 302:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
+ 306:	81 35       	cpi	r24, 0x51	; 81
+ 308:	91 05       	cpc	r25, r1
+ 30a:	c8 f4       	brcc	.+50     	; 0x33e <Timer2_Volume+0x44>
 		{
 			volumen += 10;
- 2e0:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 2e4:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 2e8:	0a 96       	adiw	r24, 0x0a	; 10
- 2ea:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
- 2ee:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
- 2f2:	0f c0       	rjmp	.+30     	; 0x312 <Timer2_Volume+0x44>
+ 30c:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
+ 310:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
+ 314:	0a 96       	adiw	r24, 0x0a	; 10
+ 316:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
+ 31a:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
+ 31e:	0f c0       	rjmp	.+30     	; 0x33e <Timer2_Volume+0x44>
 		}		
 	}else
 	{
 		if( volumen >= 10)
- 2f4:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 2f8:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 2fc:	0a 97       	sbiw	r24, 0x0a	; 10
- 2fe:	48 f0       	brcs	.+18     	; 0x312 <Timer2_Volume+0x44>
+ 320:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
+ 324:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
+ 328:	0a 97       	sbiw	r24, 0x0a	; 10
+ 32a:	48 f0       	brcs	.+18     	; 0x33e <Timer2_Volume+0x44>
 		{
 			volumen -= 10;
- 300:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 304:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 308:	0a 97       	sbiw	r24, 0x0a	; 10
- 30a:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
- 30e:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
+ 32c:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
+ 330:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
+ 334:	0a 97       	sbiw	r24, 0x0a	; 10
+ 336:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
+ 33a:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
 		}
 	}
-	OCR2B = (OCR2A*volumen)/100;
- 312:	40 91 b3 00 	lds	r20, 0x00B3	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7000b3>
- 316:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 31a:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 31e:	48 9f       	mul	r20, r24
- 320:	90 01       	movw	r18, r0
- 322:	49 9f       	mul	r20, r25
- 324:	30 0d       	add	r19, r0
- 326:	11 24       	eor	r1, r1
- 328:	36 95       	lsr	r19
- 32a:	27 95       	ror	r18
- 32c:	36 95       	lsr	r19
- 32e:	27 95       	ror	r18
- 330:	ab e7       	ldi	r26, 0x7B	; 123
- 332:	b4 e1       	ldi	r27, 0x14	; 20
- 334:	d2 d0       	rcall	.+420    	; 0x4da <__umulhisi3>
- 336:	96 95       	lsr	r25
- 338:	87 95       	ror	r24
- 33a:	80 93 b4 00 	sts	0x00B4, r24	; 0x8000b4 <__TEXT_REGION_LENGTH__+0x7000b4>
+	
 	itoa(volumenChar,volumen,10);
  33e:	60 91 ca 03 	lds	r22, 0x03CA	; 0x8003ca <volumen>
  342:	70 91 cb 03 	lds	r23, 0x03CB	; 0x8003cb <volumen+0x1>
  346:	4a e0       	ldi	r20, 0x0A	; 10
  348:	86 eb       	ldi	r24, 0xB6	; 182
  34a:	93 e0       	ldi	r25, 0x03	; 3
-	UART0_puts("\n\rVolumen: ");
  34c:	3e d0       	rcall	.+124    	; 0x3ca <itoa>
+	UART0_puts("\n\rVolumen: ");
  34e:	86 ea       	ldi	r24, 0xA6	; 166
-	UART0_puts(volumenChar);
  350:	93 e0       	ldi	r25, 0x03	; 3
+	UART0_puts(volumenChar);
  352:	2d d0       	rcall	.+90     	; 0x3ae <UART0_puts>
  354:	86 eb       	ldi	r24, 0xB6	; 182
  356:	93 e0       	ldi	r25, 0x03	; 3

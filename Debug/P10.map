@@ -412,17 +412,17 @@ END GROUP
                 0x00000174       0x16 Timer.o
                 0x00000174                Timer0_Ini
  .text.Timer2_Freq_Gen
-                0x0000018a       0x1e Timer.o
+                0x0000018a       0x4a Timer.o
                 0x0000018a                Timer2_Freq_Gen
  .text.__vector_21
-                0x000001a8       0xfe Timer.o
-                0x000001a8                __vector_21
+                0x000001d4       0xfe Timer.o
+                0x000001d4                __vector_21
  .text.Timer2_Play
-                0x000002a6       0x28 Timer.o
-                0x000002a6                Timer2_Play
+                0x000002d2       0x28 Timer.o
+                0x000002d2                Timer2_Play
  .text.Timer2_Volume
-                0x000002ce       0x8e Timer.o
-                0x000002ce                Timer2_Volume
+                0x000002fa       0x62 Timer.o
+                0x000002fa                Timer2_Volume
  .text.UART0_Init
                 0x0000035c       0x32 UART.o
                 0x0000035c                UART0_Init
@@ -640,10 +640,10 @@ END GROUP
  .debug_str     0x00000625       0x57 UART.o
                                 0x1d7 (size before relaxing)
 
-.debug_loc      0x00000000      0x6d1
+.debug_loc      0x00000000      0x6f0
  *(.debug_loc)
- .debug_loc     0x00000000      0x165 Timer.o
- .debug_loc     0x00000165      0x56c UART.o
+ .debug_loc     0x00000000      0x184 Timer.o
+ .debug_loc     0x00000184      0x56c UART.o
 
 .debug_macinfo
  *(.debug_macinfo)
