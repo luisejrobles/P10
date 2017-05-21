@@ -102,13 +102,13 @@ void Timer2_Volume(int8_t direction){
 	{
 		if(volumen <= 80)
 		{
-			volumen += 10;
+			volumen += 5;
 		}		
 	}else
 	{
-		if( volumen >= 10)
+		if( volumen >= 5)
 		{
-			volumen -= 10;
+			volumen -= 5;
 		}
 	}
 	

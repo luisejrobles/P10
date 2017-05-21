@@ -238,7 +238,7 @@ int main(void)
 			break;
 			case 'p' : 
 						UART0_puts("\n\rTocar cancion");
-						Timer2_Play(AngelesAzules,sizeof(AngelesAzules)/sizeof(struct note));
+						Timer2_Play(ImperialMarch,sizeof(ImperialMarch)/sizeof(struct note));
 			break;
 			default : break;
 		}

@@ -3,31 +3,31 @@ P10.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         000001b2  00800200  00000540  000005d4  2**0
+  0 .data         00000162  00800200  00000540  000005d4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         00000540  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000001e  008003b2  008003b2  00000786  2**0
+  2 .bss          0000001e  00800362  00800362  00000736  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000786  2**0
+  3 .comment      00000030  00000000  00000000  00000736  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000007b8  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000768  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000b8  00000000  00000000  000007f8  2**0
+  5 .debug_aranges 000000b8  00000000  00000000  000007a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000013f9  00000000  00000000  000008b0  2**0
+  6 .debug_info   000013f9  00000000  00000000  00000860  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000e93  00000000  00000000  00001ca9  2**0
+  7 .debug_abbrev 00000e93  00000000  00000000  00001c59  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000007d8  00000000  00000000  00002b3c  2**0
+  8 .debug_line   000007d8  00000000  00000000  00002aec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001a0  00000000  00000000  00003314  2**2
+  9 .debug_frame  000001a0  00000000  00000000  000032c4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000067c  00000000  00000000  000034b4  2**0
+ 10 .debug_str    0000067c  00000000  00000000  00003464  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000006f0  00000000  00000000  00003b30  2**0
+ 11 .debug_loc    000006f0  00000000  00000000  00003ae0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000088  00000000  00000000  00004220  2**0
+ 12 .debug_ranges 00000088  00000000  00000000  000041d0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -169,13 +169,13 @@ Disassembly of section .text:
  102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
  104:	07 90       	elpm	r0, Z+
  106:	0d 92       	st	X+, r0
- 108:	a2 3b       	cpi	r26, 0xB2	; 178
+ 108:	a2 36       	cpi	r26, 0x62	; 98
  10a:	b1 07       	cpc	r27, r17
  10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
 
 0000010e <__do_clear_bss>:
  10e:	23 e0       	ldi	r18, 0x03	; 3
- 110:	a2 eb       	ldi	r26, 0xB2	; 178
+ 110:	a2 e6       	ldi	r26, 0x62	; 98
  112:	b3 e0       	ldi	r27, 0x03	; 3
  114:	01 c0       	rjmp	.+2      	; 0x118 <.do_clear_bss_start>
 
@@ -183,7 +183,7 @@ Disassembly of section .text:
  116:	1d 92       	st	X+, r1
 
 00000118 <.do_clear_bss_start>:
- 118:	a0 3d       	cpi	r26, 0xD0	; 208
+ 118:	a0 38       	cpi	r26, 0x80	; 128
  11a:	b2 07       	cpc	r27, r18
  11c:	e1 f7       	brne	.-8      	; 0x116 <.do_clear_bss_loop>
  11e:	02 d0       	rcall	.+4      	; 0x124 <main>
@@ -245,12 +245,12 @@ int main(void)
  15a:	29 d1       	rcall	.+594    	; 0x3ae <UART0_puts>
  15c:	81 e0       	ldi	r24, 0x01	; 1
  15e:	cd d0       	rcall	.+410    	; 0x2fa <Timer2_Volume>
-						Timer2_Play(AngelesAzules,sizeof(AngelesAzules)/sizeof(struct note));
+						Timer2_Play(ImperialMarch,sizeof(ImperialMarch)/sizeof(struct note));
  160:	ec cf       	rjmp	.-40     	; 0x13a <main+0x16>
  162:	8e e2       	ldi	r24, 0x2E	; 46
  164:	92 e0       	ldi	r25, 0x02	; 2
  166:	23 d1       	rcall	.+582    	; 0x3ae <UART0_puts>
- 168:	6a e5       	ldi	r22, 0x5A	; 90
+ 168:	66 e4       	ldi	r22, 0x46	; 70
  16a:	70 e0       	ldi	r23, 0x00	; 0
 			break;
  16c:	8e e3       	ldi	r24, 0x3E	; 62
@@ -305,8 +305,8 @@ void Timer0_Ini ( void ){
  1a0:	80 83       	st	Z, r24
 		OCR2B = (OCR2A*volumen)/100;
  1a2:	40 81       	ld	r20, Z
- 1a4:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 1a8:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
+ 1a4:	80 91 7a 03 	lds	r24, 0x037A	; 0x80037a <volumen>
+ 1a8:	90 91 7b 03 	lds	r25, 0x037B	; 0x80037b <volumen+0x1>
  1ac:	48 9f       	mul	r20, r24
  1ae:	90 01       	movw	r18, r0
  1b0:	49 9f       	mul	r20, r25
@@ -359,39 +359,39 @@ ISR(TIMER0_COMPA_vect){
 	/* 	Código para actualizar bandera de segundos */
 	static uint16_t mSeg;
 	mSeg++;
- 1fa:	80 91 b2 03 	lds	r24, 0x03B2	; 0x8003b2 <__data_end>
- 1fe:	90 91 b3 03 	lds	r25, 0x03B3	; 0x8003b3 <__data_end+0x1>
+ 1fa:	80 91 62 03 	lds	r24, 0x0362	; 0x800362 <__data_end>
+ 1fe:	90 91 63 03 	lds	r25, 0x0363	; 0x800363 <__data_end+0x1>
  202:	01 96       	adiw	r24, 0x01	; 1
- 204:	90 93 b3 03 	sts	0x03B3, r25	; 0x8003b3 <__data_end+0x1>
- 208:	80 93 b2 03 	sts	0x03B2, r24	; 0x8003b2 <__data_end>
+ 204:	90 93 63 03 	sts	0x0363, r25	; 0x800363 <__data_end+0x1>
+ 208:	80 93 62 03 	sts	0x0362, r24	; 0x800362 <__data_end>
 	
 	/*	Agregar las instrucciones necesarias para reproducir
 		la siguiente nota en el arreglo dependiendo de la duración, 
 		e insertar los silencios entre cada nota. */
 	if(mSeg >= delay)
- 20c:	20 91 b4 03 	lds	r18, 0x03B4	; 0x8003b4 <delay>
- 210:	30 91 b5 03 	lds	r19, 0x03B5	; 0x8003b5 <delay+0x1>
+ 20c:	20 91 64 03 	lds	r18, 0x0364	; 0x800364 <delay>
+ 210:	30 91 65 03 	lds	r19, 0x0365	; 0x800365 <delay+0x1>
  214:	82 17       	cp	r24, r18
  216:	93 07       	cpc	r25, r19
  218:	08 f4       	brcc	.+2      	; 0x21c <__vector_21+0x48>
  21a:	48 c0       	rjmp	.+144    	; 0x2ac <__vector_21+0xd8>
 	{
 		mSeg = 0;
- 21c:	10 92 b3 03 	sts	0x03B3, r1	; 0x8003b3 <__data_end+0x1>
- 220:	10 92 b2 03 	sts	0x03B2, r1	; 0x8003b2 <__data_end>
+ 21c:	10 92 63 03 	sts	0x0363, r1	; 0x800363 <__data_end+0x1>
+ 220:	10 92 62 03 	sts	0x0362, r1	; 0x800362 <__data_end>
 		if(cambio && cntNota != Fin)
  224:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__data_start>
  228:	88 23       	and	r24, r24
  22a:	a9 f1       	breq	.+106    	; 0x296 <__vector_21+0xc2>
- 22c:	90 91 cd 03 	lds	r25, 0x03CD	; 0x8003cd <cntNota>
- 230:	80 91 cc 03 	lds	r24, 0x03CC	; 0x8003cc <Fin>
+ 22c:	90 91 7d 03 	lds	r25, 0x037D	; 0x80037d <cntNota>
+ 230:	80 91 7c 03 	lds	r24, 0x037C	; 0x80037c <Fin>
  234:	98 17       	cp	r25, r24
  236:	79 f1       	breq	.+94     	; 0x296 <__vector_21+0xc2>
 		{
 			Timer2_Freq_Gen(TICKS(cancion[cntNota].freq));
- 238:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
- 23c:	e0 91 ce 03 	lds	r30, 0x03CE	; 0x8003ce <cancion>
- 240:	f0 91 cf 03 	lds	r31, 0x03CF	; 0x8003cf <cancion+0x1>
+ 238:	80 91 7d 03 	lds	r24, 0x037D	; 0x80037d <cntNota>
+ 23c:	e0 91 7e 03 	lds	r30, 0x037E	; 0x80037e <cancion>
+ 240:	f0 91 7f 03 	lds	r31, 0x037F	; 0x80037f <cancion+0x1>
  244:	94 e0       	ldi	r25, 0x04	; 4
  246:	89 9f       	mul	r24, r25
  248:	e0 0d       	add	r30, r0
@@ -411,9 +411,9 @@ ISR(TIMER0_COMPA_vect){
 			cambio = 0;
  264:	10 92 00 02 	sts	0x0200, r1	; 0x800200 <__data_start>
 			delay = cancion[cntNota].delay;
- 268:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
- 26c:	e0 91 ce 03 	lds	r30, 0x03CE	; 0x8003ce <cancion>
- 270:	f0 91 cf 03 	lds	r31, 0x03CF	; 0x8003cf <cancion+0x1>
+ 268:	80 91 7d 03 	lds	r24, 0x037D	; 0x80037d <cntNota>
+ 26c:	e0 91 7e 03 	lds	r30, 0x037E	; 0x80037e <cancion>
+ 270:	f0 91 7f 03 	lds	r31, 0x037F	; 0x80037f <cancion+0x1>
  274:	94 e0       	ldi	r25, 0x04	; 4
  276:	89 9f       	mul	r24, r25
  278:	e0 0d       	add	r30, r0
@@ -421,12 +421,12 @@ ISR(TIMER0_COMPA_vect){
  27c:	11 24       	eor	r1, r1
  27e:	82 81       	ldd	r24, Z+2	; 0x02
  280:	93 81       	ldd	r25, Z+3	; 0x03
- 282:	90 93 b5 03 	sts	0x03B5, r25	; 0x8003b5 <delay+0x1>
- 286:	80 93 b4 03 	sts	0x03B4, r24	; 0x8003b4 <delay>
+ 282:	90 93 65 03 	sts	0x0365, r25	; 0x800365 <delay+0x1>
+ 286:	80 93 64 03 	sts	0x0364, r24	; 0x800364 <delay>
 			cntNota++;
- 28a:	80 91 cd 03 	lds	r24, 0x03CD	; 0x8003cd <cntNota>
+ 28a:	80 91 7d 03 	lds	r24, 0x037D	; 0x80037d <cntNota>
  28e:	8f 5f       	subi	r24, 0xFF	; 255
- 290:	80 93 cd 03 	sts	0x03CD, r24	; 0x8003cd <cntNota>
+ 290:	80 93 7d 03 	sts	0x037D, r24	; 0x80037d <cntNota>
  294:	0b c0       	rjmp	.+22     	; 0x2ac <__vector_21+0xd8>
 		}else
 		{
@@ -439,8 +439,8 @@ ISR(TIMER0_COMPA_vect){
 			delay = SILENCE;
  2a0:	8a e0       	ldi	r24, 0x0A	; 10
  2a2:	90 e0       	ldi	r25, 0x00	; 0
- 2a4:	90 93 b5 03 	sts	0x03B5, r25	; 0x8003b5 <delay+0x1>
- 2a8:	80 93 b4 03 	sts	0x03B4, r24	; 0x8003b4 <delay>
+ 2a4:	90 93 65 03 	sts	0x0365, r25	; 0x800365 <delay+0x1>
+ 2a8:	80 93 64 03 	sts	0x0364, r24	; 0x800364 <delay>
 		}
 	}		
 }
@@ -471,17 +471,17 @@ void Timer2_Play(const struct note song[],unsigned int len)
 	/*	Función que establece las condiciones necesarias para que
 		el generador recorra el arreglo de notas. */
 	cancion = song;
- 2d2:	90 93 cf 03 	sts	0x03CF, r25	; 0x8003cf <cancion+0x1>
- 2d6:	80 93 ce 03 	sts	0x03CE, r24	; 0x8003ce <cancion>
+ 2d2:	90 93 7f 03 	sts	0x037F, r25	; 0x80037f <cancion+0x1>
+ 2d6:	80 93 7e 03 	sts	0x037E, r24	; 0x80037e <cancion>
 	cntNota = 0;				//obteniendo principio de musica
- 2da:	10 92 cd 03 	sts	0x03CD, r1	; 0x8003cd <cntNota>
+ 2da:	10 92 7d 03 	sts	0x037D, r1	; 0x80037d <cntNota>
 	Fin = len;			//Obteniendo final de musica
- 2de:	60 93 cc 03 	sts	0x03CC, r22	; 0x8003cc <Fin>
+ 2de:	60 93 7c 03 	sts	0x037C, r22	; 0x80037c <Fin>
 	volumen = 50;			//Volumen a la mitad
  2e2:	82 e3       	ldi	r24, 0x32	; 50
  2e4:	90 e0       	ldi	r25, 0x00	; 0
- 2e6:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
- 2ea:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
+ 2e6:	90 93 7b 03 	sts	0x037B, r25	; 0x80037b <volumen+0x1>
+ 2ea:	80 93 7a 03 	sts	0x037A, r24	; 0x80037a <volumen>
 	DDRH |= (1<<DDH6);
  2ee:	e1 e0       	ldi	r30, 0x01	; 1
  2f0:	f1 e0       	ldi	r31, 0x01	; 1
@@ -501,50 +501,50 @@ void Timer2_Volume(int8_t direction){
  2fc:	89 f4       	brne	.+34     	; 0x320 <Timer2_Volume+0x26>
 	{
 		if(volumen <= 80)
- 2fe:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 302:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
+ 2fe:	80 91 7a 03 	lds	r24, 0x037A	; 0x80037a <volumen>
+ 302:	90 91 7b 03 	lds	r25, 0x037B	; 0x80037b <volumen+0x1>
  306:	81 35       	cpi	r24, 0x51	; 81
  308:	91 05       	cpc	r25, r1
  30a:	c8 f4       	brcc	.+50     	; 0x33e <Timer2_Volume+0x44>
 		{
-			volumen += 10;
- 30c:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 310:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 314:	0a 96       	adiw	r24, 0x0a	; 10
- 316:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
- 31a:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
+			volumen += 5;
+ 30c:	80 91 7a 03 	lds	r24, 0x037A	; 0x80037a <volumen>
+ 310:	90 91 7b 03 	lds	r25, 0x037B	; 0x80037b <volumen+0x1>
+ 314:	05 96       	adiw	r24, 0x05	; 5
+ 316:	90 93 7b 03 	sts	0x037B, r25	; 0x80037b <volumen+0x1>
+ 31a:	80 93 7a 03 	sts	0x037A, r24	; 0x80037a <volumen>
  31e:	0f c0       	rjmp	.+30     	; 0x33e <Timer2_Volume+0x44>
 		}		
 	}else
 	{
-		if( volumen >= 10)
- 320:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 324:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 328:	0a 97       	sbiw	r24, 0x0a	; 10
+		if( volumen >= 5)
+ 320:	80 91 7a 03 	lds	r24, 0x037A	; 0x80037a <volumen>
+ 324:	90 91 7b 03 	lds	r25, 0x037B	; 0x80037b <volumen+0x1>
+ 328:	05 97       	sbiw	r24, 0x05	; 5
  32a:	48 f0       	brcs	.+18     	; 0x33e <Timer2_Volume+0x44>
 		{
-			volumen -= 10;
- 32c:	80 91 ca 03 	lds	r24, 0x03CA	; 0x8003ca <volumen>
- 330:	90 91 cb 03 	lds	r25, 0x03CB	; 0x8003cb <volumen+0x1>
- 334:	0a 97       	sbiw	r24, 0x0a	; 10
- 336:	90 93 cb 03 	sts	0x03CB, r25	; 0x8003cb <volumen+0x1>
- 33a:	80 93 ca 03 	sts	0x03CA, r24	; 0x8003ca <volumen>
+			volumen -= 5;
+ 32c:	80 91 7a 03 	lds	r24, 0x037A	; 0x80037a <volumen>
+ 330:	90 91 7b 03 	lds	r25, 0x037B	; 0x80037b <volumen+0x1>
+ 334:	05 97       	sbiw	r24, 0x05	; 5
+ 336:	90 93 7b 03 	sts	0x037B, r25	; 0x80037b <volumen+0x1>
+ 33a:	80 93 7a 03 	sts	0x037A, r24	; 0x80037a <volumen>
 		}
 	}
 	
 	itoa(volumenChar,volumen,10);
- 33e:	60 91 ca 03 	lds	r22, 0x03CA	; 0x8003ca <volumen>
- 342:	70 91 cb 03 	lds	r23, 0x03CB	; 0x8003cb <volumen+0x1>
+ 33e:	60 91 7a 03 	lds	r22, 0x037A	; 0x80037a <volumen>
+ 342:	70 91 7b 03 	lds	r23, 0x037B	; 0x80037b <volumen+0x1>
  346:	4a e0       	ldi	r20, 0x0A	; 10
- 348:	86 eb       	ldi	r24, 0xB6	; 182
+ 348:	86 e6       	ldi	r24, 0x66	; 102
  34a:	93 e0       	ldi	r25, 0x03	; 3
  34c:	3e d0       	rcall	.+124    	; 0x3ca <itoa>
 	UART0_puts("\n\rVolumen: ");
- 34e:	86 ea       	ldi	r24, 0xA6	; 166
+ 34e:	86 e5       	ldi	r24, 0x56	; 86
  350:	93 e0       	ldi	r25, 0x03	; 3
 	UART0_puts(volumenChar);
  352:	2d d0       	rcall	.+90     	; 0x3ae <UART0_puts>
- 354:	86 eb       	ldi	r24, 0xB6	; 182
+ 354:	86 e6       	ldi	r24, 0x66	; 102
  356:	93 e0       	ldi	r25, 0x03	; 3
  358:	2a c0       	rjmp	.+84     	; 0x3ae <UART0_puts>
  35a:	08 95       	ret

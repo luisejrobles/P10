@@ -29,8 +29,8 @@ Discarded input sections
  .text          0x00000000        0x0 Prac10.o
  .data          0x00000000        0x0 Prac10.o
  .bss           0x00000000        0x0 Prac10.o
- .rodata.ImperialMarch
-                0x00000000      0x118 Prac10.o
+ .rodata.AngelesAzules
+                0x00000000      0x168 Prac10.o
  .text          0x00000000        0x0 Timer.o
  .data          0x00000000        0x0 Timer.o
  .bss           0x00000000        0x0 Timer.o
@@ -482,7 +482,7 @@ END GROUP
  *(.fini0)
                 0x00000540                _etext = .
 
-.data           0x00800200      0x1b2 load address 0x00000540
+.data           0x00800200      0x162 load address 0x00000540
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -491,40 +491,40 @@ END GROUP
  *(.rodata*)
  .rodata.str1.1
                 0x00800201       0x3d Prac10.o
- .rodata.AngelesAzules
-                0x0080023e      0x168 Prac10.o
-                0x0080023e                AngelesAzules
+ .rodata.ImperialMarch
+                0x0080023e      0x118 Prac10.o
+                0x0080023e                ImperialMarch
  .rodata.str1.1
-                0x008003a6        0xc Timer.o
+                0x00800356        0xc Timer.o
  *(.gnu.linkonce.d*)
-                0x008003b2                . = ALIGN (0x2)
-                0x008003b2                _edata = .
-                0x008003b2                PROVIDE (__data_end, .)
+                0x00800362                . = ALIGN (0x2)
+                0x00800362                _edata = .
+                0x00800362                PROVIDE (__data_end, .)
 
-.bss            0x008003b2       0x1e
-                0x008003b2                PROVIDE (__bss_start, .)
+.bss            0x00800362       0x1e
+                0x00800362                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.mSeg.1650
-                0x008003b2        0x2 Timer.o
- .bss.delay     0x008003b4        0x2 Timer.o
+                0x00800362        0x2 Timer.o
+ .bss.delay     0x00800364        0x2 Timer.o
  .bss.volumenChar
-                0x008003b6       0x14 Timer.o
- .bss.volumen   0x008003ca        0x2 Timer.o
- .bss.Fin       0x008003cc        0x1 Timer.o
- .bss.cntNota   0x008003cd        0x1 Timer.o
+                0x00800366       0x14 Timer.o
+ .bss.volumen   0x0080037a        0x2 Timer.o
+ .bss.Fin       0x0080037c        0x1 Timer.o
+ .bss.cntNota   0x0080037d        0x1 Timer.o
  *(COMMON)
- COMMON         0x008003ce        0x2 Timer.o
-                0x008003ce                cancion
-                0x008003d0                PROVIDE (__bss_end, .)
+ COMMON         0x0080037e        0x2 Timer.o
+                0x0080037e                cancion
+                0x00800380                PROVIDE (__bss_end, .)
                 0x00000540                __data_load_start = LOADADDR (.data)
-                0x000006f2                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000006a2                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008003d0        0x0
+.noinit         0x00800380        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x008003d0                _end = .
+                0x00800380                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
